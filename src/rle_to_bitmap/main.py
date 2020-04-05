@@ -1,4 +1,5 @@
-path = './sample/test.rle'
+import csv
+path = './sample/display.rle'
 
 def get_x_y(text) :
     line = text[1]
@@ -40,7 +41,12 @@ def lexical_analysis (code) :
     
 
 def get_tokens(text):
-    compressed_code = text[2]
+
+    compressed_code = ""
+    for i, t in enumerate(text):
+        if i >= 2:
+            compressed_code += t
+
     tokens = lexical_analysis(compressed_code)
     return tokens
 
@@ -79,7 +85,7 @@ def convert_bitmap(tokens, x, y):
                 bitmaps.append(line)
                 print('analysis end')
 
-    print(bitmaps)
+    # print(bitmaps)
     return bitmaps
 
 
@@ -92,6 +98,10 @@ def main ():
 
     x, y = get_x_y(text)
     bitmap = convert_bitmap(tokens, x, y)
+
+    with open('data.csv', 'w') as file:
+        writer = csv.writer(file, lineterminator='\n')
+        writer.writerows(bitmap)
 
 main()
 
